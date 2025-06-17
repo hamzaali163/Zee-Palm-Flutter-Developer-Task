@@ -8,7 +8,14 @@ class LoginVm with ChangeNotifier {
   final TextEditingController emailcontroller = TextEditingController();
   final TextEditingController passwordcontroller = TextEditingController();
   final auth = FirebaseAuth.instance;
+  bool loading = false;
+  void setloadingvalue(bool loadvalue) {
+    loading = loadvalue;
+    notifyListeners();
+  }
+
   Future login(context) async {
+    setloadingvalue(true);
     try {
       await auth.signInWithEmailAndPassword(email: emailcontroller.text, password: passwordcontroller.text).then((
         value,
@@ -18,7 +25,9 @@ class LoginVm with ChangeNotifier {
         passwordcontroller.clear();
         Navigator.pushNamed(context, RouteNames.bottomnab);
       });
+      setloadingvalue(false);
     } on FirebaseAuthException catch (e) {
+      setloadingvalue(false);
       Generalutils().showErrorSnackBar(context, e.toString());
     }
   }

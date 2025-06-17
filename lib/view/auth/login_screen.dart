@@ -2,6 +2,7 @@ import 'package:assesment_project/components/reusable_text_field.dart';
 import 'package:assesment_project/components/round_button.dart';
 import 'package:assesment_project/providers/login_vm.dart';
 import 'package:assesment_project/utils/generalutils.dart';
+import 'package:assesment_project/utils/routenames.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,12 +37,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomTextFormField(controller: vm.emailcontroller, labelText: "Email"),
                 SizedBox(height: 20),
                 Text("Password", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+
                 SizedBox(height: 5),
 
                 CustomTextFormField(controller: vm.passwordcontroller, labelText: "Password"),
+                Row(
+                  children: [
+                    Text('Dont have an account'),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, RouteNames.signupscreen);
+                      },
+                      child: Text("Sign up"),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 30),
                 RoundButton(
                   title: 'Login',
+                  isLoading: vm.loading,
                   onPressed: () {
                     if (vm.emailcontroller.text.isNotEmpty && vm.passwordcontroller.text.isNotEmpty) {
                       vm.login(context);

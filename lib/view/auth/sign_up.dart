@@ -62,6 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 RoundButton(
+                  isLoading: vm.loading,
                   title: 'Sign Up',
                   onPressed: () {
                     if (vm.emailcontroller.text.isNotEmpty && vm.passwordcontroller.text.isNotEmpty) {

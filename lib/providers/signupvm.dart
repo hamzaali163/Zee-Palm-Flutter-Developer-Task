@@ -9,8 +9,14 @@ class Signupvm with ChangeNotifier {
   final emailcontroller = TextEditingController();
   final passwordcontroller = TextEditingController();
   final auth = FirebaseAuth.instance;
+  bool loading = false;
+  void setloadingvalue(bool loadvalue) {
+    loading = loadvalue;
+    notifyListeners();
+  }
 
   Future signup(context) async {
+    setloadingvalue(true);
     try {
       auth.createUserWithEmailAndPassword(email: emailcontroller.text, password: passwordcontroller.text).then((
         value,
@@ -20,12 +26,15 @@ class Signupvm with ChangeNotifier {
           'name': namecontroller.text.toString(),
           'email': emailcontroller.text,
         });
+        setloadingvalue(false);
         Generalutils().showSuccessSnackBar(context, 'Sign up successful');
         emailcontroller.clear();
         passwordcontroller.clear();
         Navigator.pushNamed(context, RouteNames.bottomnab);
       });
     } on FirebaseAuthException catch (e) {
+      setloadingvalue(false);
+
       Generalutils().showErrorSnackBar(context, e.toString());
     }
   }

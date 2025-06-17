@@ -2,6 +2,8 @@ import 'package:assesment_project/components/reusable_text_field.dart';
 import 'package:assesment_project/components/round_button.dart';
 import 'package:assesment_project/providers/homevm.dart';
 import 'package:assesment_project/utils/generalutils.dart';
+import 'package:assesment_project/utils/routenames.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +20,20 @@ class _UploadScreenState extends State<UploadScreen> {
     return Consumer<Homevm>(
       builder: (context, vm, child) {
         return Scaffold(
-          appBar: AppBar(centerTitle: true, title: Text('Upload Video')),
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            title: Text('Upload Video'),
+            actions: [
+              IconButton(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.pushNamed(context, RouteNames.signupscreen);
+                },
+                icon: Icon(Icons.logout),
+              ),
+            ],
+          ),
 
           body: Padding(
             padding: EdgeInsets.only(top: 70, left: 15, right: 15),
